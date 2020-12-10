@@ -12,8 +12,8 @@ namespace Minecraft
     public sealed class Highscores : MonoBehaviour
 	{
 		// Access http://dreamlo.com to create your private and public key.
-		private const string privateCode = ""; // TODO
-		private const string publicCode = ""; // TODO
+		private const string privateCode = "pStXN7------------P1nQe4HE------------vjBzfw";
+		private const string publicCode = "5fbad-----36fd-----e5819";
 		private const string webURL = "http://dreamlo.com/lb/";
 
 		private List<Entry> highscoresList;
@@ -75,8 +75,19 @@ namespace Minecraft
 			{
 				var entryInfo = entries[i].Split(new char[] { '|' });
 				var userName = entryInfo[0].Replace('+', ' ');
-				var score = int.Parse(entryInfo[1]);
-				highscoresList.Add(new Entry(userName, score));
+				var score = entryInfo[1];
+				int finalScore = -1;
+				try
+				{
+					finalScore = int.Parse(score);
+				}catch(OverflowException e1) {
+					finalScore = int.MaxValue;
+				}
+                finally
+                {
+					highscoresList.Add(new Entry(userName, finalScore));
+					
+                }
 			}
 
 			return highscoresList;
